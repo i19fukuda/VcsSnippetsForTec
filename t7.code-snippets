@@ -1,0 +1,171 @@
+{
+	// Place your script ワークスペース snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"out_check":{
+		"prefix": "outc",
+		"body": [
+			"WAIT$1\tIN\tG$2,03H\t;出力チェックのステートメント入力",
+			"\tAND\tG$2,#80H\t;ステートメント確認",
+			"\tJZ\tWAIT$1\t;出力可能になるまでループ",
+		],
+		"description": "出力時のステートメント確認",
+	},
+
+	"in_check":{
+		"prefix": "inc",
+		"body": [
+			"WAIT$1\tIN\tG$2,03H\t;入力チェックのステートメント入力",
+			"\tAND\tG$2,#40H\t;ステートメント確認",
+			"\tJZ\tWAIT$1\t;入力可能になるまでループ",
+		],
+		"description": "入力時のステートメント確認",
+	},
+
+	"serialIn":{
+		"prefix": "sin",
+		"body": "IN\tG$1,02H\t;シリアルデータをG$1に格納"
+	},
+
+	"serialOut":{
+		"prefix": "sout",
+		"body": "OUT\tG$1,02H\t;G$1のシリアルデータを送信",
+	},
+
+	"LD":{
+		"prefix": "LD",
+		"body": "LD\tG$1,$2\t;G$1に$2を格納",
+	},
+
+	"ST":{
+		"prefix": "ST",
+		"body": "G$1,$2\t;G$1に$2を格納",
+	},
+
+	"ADD":{
+		"prefix": "ADD",
+		"body": "ADD\tG$1,$2\t;G$1 = G$1 + $2",
+	},
+
+	"SUB":{
+		"prefix": "SUB",
+		"body": "SUB\tG$1,$2\t;G$1 - $2"
+	},
+
+	"CMP":{
+		"prefix": "CMP",
+		"body": "CMP\tG$1,$2\t;G$1 - $2",
+	},
+	"AND":{
+		"prefix": "AND",
+		"body": "AND\tG$1,$2\t;G$1 and $2",
+	},
+
+	"OR":{
+		"prefix": "OR",
+		"body": "OR\tG$1,$2\t;G$1 or $2",
+	},
+
+	"JMP":{
+		"prefix": "JMP",
+		"body": "JMP\t$1\t;$1へジャンプ",
+	},
+
+	"JZ":{
+		"prefix": "JZ",
+		"body": "JZ\t$1\t;0ならば$1へジャンプ",
+	},
+
+	"JC":{
+		"prefix": "JC",
+		"body": "JC\t$1\t;Cフラグが1なら$1へジャンプ",
+	},
+
+	"JM":{
+		"prefix": "JM",
+		"body": "JM\t$1\t;Mフラグが1なら$1へジャンプ",
+	},
+
+	"OUT":{
+		"prefix": "OUT",
+		"body": "OUT\t$1,$2\t;出力$3",
+		"description": "out data,p"
+	},
+
+	"IN":{
+		"prefix": "IN",
+		"body": "IN\tG$1,$2\t;入力$3",
+	},
+
+	"HALT":{
+		"prefix": "HALT",
+		"body": "HALT",
+	},
+	"PUSH":{
+		"prefix": "PUSH",
+		"body": [
+			"PUSH\t$1\t;$1の退避",
+		],
+	},
+
+	"PUSHF":{
+		"prefix": "PUSHF",
+		"body": [
+			"PUSHF\t\t;フラグの退避",
+		],
+	},
+
+	"POP":{
+		"prefix": "POP",
+		"body": "POP\t$1\t;$1の復帰",
+	},
+	"POPF":{
+		"prefix": "POPF",
+		"body": "POPF\t\t;フラグの復帰",
+	},
+
+
+	// サブルーチンの定義
+
+	"getCh":{
+		"prefix": "sub_getCh",
+		"body": [
+			"GETCH\tPUSH\tG1\t;G1を退避",
+			"\tPUSHF",
+			"GCWAIT\tIN\tG1,03H\t;ステータスをG1に格納",
+			"\tAND\tG1,#40H\t;#ステータス確認",
+			"\tJZ\tGCWAIT\t;入力可能になるまでループ",
+			"\tIN\tG0,02H\t;G0に入力",
+			"\tPOPF\t\t;フラグの復帰;",
+			"\tPOP\tG1\t;G1の復帰"
+		],
+	},
+
+	"putCh":{
+		"prefix": "sub_putCh",
+		"body": [
+			"PUTCH\tIN\tG1,03H\t;出チェックのステートメント入力",
+			"\tPUSHF",
+			"PCWAIT\tAND\tG1,#80H\t;ステートメント確認",
+			"\tJZ\tPCWAIT\t;出力可能になるまでループ",
+			"\tOUT\tG0,02H\t;出力",
+			"\tPOPF",
+			"\tPOP\tG1",
+			"\tRET",
+		],
+	},
+
+}
