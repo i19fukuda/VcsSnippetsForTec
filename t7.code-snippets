@@ -150,7 +150,8 @@
 			"\tJZ\tGCWAIT\t;入力可能になるまでループ",
 			"\tIN\tG0,02H\t;G0に入力",
 			"\tPOPF\t\t;フラグの復帰;",
-			"\tPOP\tG1\t;G1の復帰"
+			"\tPOP\tG1\t;G1の復帰",
+			"\tRET"
 		],
 	},
 
