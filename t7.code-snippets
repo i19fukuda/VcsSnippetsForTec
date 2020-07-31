@@ -158,7 +158,8 @@
 	"putCh":{
 		"prefix": "sub_putCh",
 		"body": [
-			"PUTCH\tIN\tG1,03H\t;出チェックのステートメント入力",
+			"PUTCH\tPUSH\tG1\tG1の退避",
+			"\tIN\tG1,03H\t;出チェックのステートメント入力",
 			"\tPUSHF",
 			"PCWAIT\tAND\tG1,#80H\t;ステートメント確認",
 			"\tJZ\tPCWAIT\t;出力可能になるまでループ",
