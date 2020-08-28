@@ -154,14 +154,13 @@
 			"\tRET"
 		],
 	},
-
 	"putCh":{
 		"prefix": "sub_putCh",
 		"body": [
-			"PUTCH\tPUSH\tG1\t;G1の退避",
-			"\tIN\tG1,03H\t;出チェックのステートメント入力",
+			"PUTCH\tPUSH\tG1\t;G1を退避",
 			"\tPUSHF",
-			"PCWAIT\tAND\tG1,#80H\t;ステートメント確認",
+			"PCWAIT\tIN\tG1,03H\t;ステートメント入力",
+			"\tAND\tG1,#80H\t;ステートメント確認",
 			"\tJZ\tPCWAIT\t;出力可能になるまでループ",
 			"\tOUT\tG0,02H\t;出力",
 			"\tPOPF",
@@ -169,5 +168,4 @@
 			"\tRET",
 		],
 	},
-
 }
